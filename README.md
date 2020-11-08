@@ -7,7 +7,7 @@ Oskour is an app where you can book trips with SpaceX.
 In order to use the app you should run thoses commands in a terminal (at the root of the project)
 
 ```bash
-pub get
+flutter pub get
 
 flutter run lib/main.dart
 ```
