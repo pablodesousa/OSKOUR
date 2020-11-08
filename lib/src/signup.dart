@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oskour/src/loginPage.dart';
+import 'package:redux/redux.dart';
 import 'package:oskour/api.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key key, this.title}) : super(key: key);
+  const SignUpPage({Key key, this.title, this.store}) : super(key: key);
 
   final String title;
+  final Store<bool> store;
 
   @override
   _SignUpPageState createState() => _SignUpPageState();

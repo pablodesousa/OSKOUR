@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:oskour/api.dart';
 import 'package:oskour/src/displayPage.dart';
-import 'package:oskour/src/missionPage.dart';
 import 'package:oskour/src/displayTrip.dart';
 import 'package:oskour/src/camera.dart';
-import 'package:oskour/src/Factory.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class DisplayHome extends StatefulWidget {
-  const DisplayHome({Key key, this.title, this.token}) : super(key: key);
+  const DisplayHome({Key key, this.title, this.token, this.store}) : super(key: key);
 
   final String title;
   final String token;
+  final Store<bool> store;
 
   @override
 
@@ -49,9 +49,10 @@ class _DisplayHomeState extends State<DisplayHome> {
       DisplayTrip(token: widget.token),
       CameraPage(token: widget.token),
     ];
-
-    return GraphQLProvider(
-      child: Scaffold(
+    print(widget.store.state);
+    return StoreProvider<bool>(
+      child: GraphQLProvider(
+        child: Scaffold(
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             backgroundColor: Colors.white,
@@ -95,8 +96,10 @@ class _DisplayHomeState extends State<DisplayHome> {
             ],
           ),
           body: _children[_currentIndex],
+        ),
+        client: client,
       ),
-      client: client,
+      store: widget.store,
     );
   }
 }

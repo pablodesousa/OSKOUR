@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:oskour/src/loginPage.dart';
+import 'package:redux/redux.dart';
 import 'package:oskour/src/signup.dart';
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key key, this.title}) : super(key: key);
+  const WelcomePage({Key key, this.title, this.store}) : super(key: key);
 
   final String title;
-
+  final Store<bool> store;
   @override
   _WelcomePageState createState() => _WelcomePageState();
 }
@@ -17,7 +18,7 @@ class _WelcomePageState extends State<WelcomePage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute<void>(builder: (BuildContext context) => const LoginPage()));
+            context, MaterialPageRoute<void>(builder: (BuildContext context) => LoginPage(store: widget.store)));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -38,7 +39,7 @@ class _WelcomePageState extends State<WelcomePage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute<void>(builder: (BuildContext context) => const SignUpPage()));
+            context, MaterialPageRoute<void>(builder: (BuildContext context) => SignUpPage(store: widget.store)));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

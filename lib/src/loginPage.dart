@@ -3,13 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oskour/api.dart';
 import 'package:oskour/src/signup.dart';
+import 'package:oskour/redux.dart' as connect;
+import 'package:redux/redux.dart';
 import 'package:oskour/src/Home.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key key, this.title}) : super(key: key);
+  const LoginPage({Key key, this.title, this.store}) : super(key: key);
 
   final String title;
-
+  final Store<bool> store;
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -109,8 +111,9 @@ class _LoginPageState extends State<LoginPage> {
           // or do something with the result.data on completion
           onCompleted: (dynamic resultData) {
             print(resultData);
+            widget.store.dispatch(connect.Actions.Connected);
             Navigator.push(
-                context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayHome(token: resultData['Login']['token'] as String)));
+                context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayHome(token: resultData['Login']['token'] as String, store: widget.store)));
           },
         ),
         builder: (RunMutation runMutation, QueryResult result) {
