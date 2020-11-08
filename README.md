@@ -9,7 +9,7 @@ In order to use the app you should run thoses commands in a terminal (at the roo
 ```bash
 flutter pub get
 
-flutter run lib/main.dart
+flutter run lib/main.dart (make sure to connect a device)
 ```
 
 ## Flutter analysis
