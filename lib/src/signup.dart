@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:OSKOUR/src/loginPage.dart';
-import 'package:OSKOUR/api.dart';
+import 'package:oskour/src/loginPage.dart';
+import 'package:oskour/api.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 

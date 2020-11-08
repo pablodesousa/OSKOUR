@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:OSKOUR/api.dart';
-import 'package:OSKOUR/src/missionPage.dart';
-import 'package:OSKOUR/src/displayTrip.dart';
-import 'package:OSKOUR/src/camera.dart';
-import 'package:OSKOUR/src/Factory.dart';
+import 'package:oskour/api.dart';
+import 'package:oskour/src/missionPage.dart';
+import 'package:oskour/src/displayTrip.dart';
+import 'package:oskour/src/camera.dart';
+import 'package:oskour/src/Factory.dart';
 
 class DisplayPage extends StatefulWidget {
   const DisplayPage({Key key, this.title, this.token}) : super(key: key);

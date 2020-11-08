@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:OSKOUR/api.dart';
-import 'package:OSKOUR/src/displayPage.dart';
-import 'package:OSKOUR/src/displayTrip.dart';
-import 'package:OSKOUR/src/Factory.dart';
+import 'package:oskour/api.dart';
+import 'package:oskour/src/displayPage.dart';
+import 'package:oskour/src/displayTrip.dart';
+import 'package:oskour/src/Factory.dart';
 
 class MissionPage extends StatefulWidget {
   const MissionPage({Key key, this.title, this.id, this.token}) : super(key: key);

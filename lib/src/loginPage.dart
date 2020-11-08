@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:OSKOUR/api.dart';
-import 'package:OSKOUR/src/signup.dart';
-import 'package:OSKOUR/src/displayPage.dart';
+import 'package:oskour/api.dart';
+import 'package:oskour/src/signup.dart';
+import 'package:oskour/src/displayPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key, this.title}) : super(key: key);
