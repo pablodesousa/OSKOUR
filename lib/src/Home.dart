@@ -3,6 +3,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oskour/src/displayPage.dart';
 import 'package:oskour/src/displayTrip.dart';
 import 'package:oskour/src/camera.dart';
+import 'package:oskour/redux.dart' as connect;
+import 'package:oskour/src/loginPage.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -25,6 +27,13 @@ final Policies policies = Policies(
 class _DisplayHomeState extends State<DisplayHome> {
   int _currentIndex = 0;
   void onTabTapped(int index) {
+    if(index == 3)
+      {
+        widget.store.dispatch(connect.Actions.Connected);
+        Navigator.push(
+            context, MaterialPageRoute<void>(builder: (BuildContext context) => LoginPage(store: widget.store)));
+        return;
+      }
     setState(() {
       _currentIndex = index;
     });
@@ -49,7 +58,6 @@ class _DisplayHomeState extends State<DisplayHome> {
       DisplayTrip(token: widget.token),
       CameraPage(token: widget.token),
     ];
-    print(widget.store.state);
     return StoreProvider<bool>(
       child: GraphQLProvider(
         child: Scaffold(
@@ -90,6 +98,16 @@ class _DisplayHomeState extends State<DisplayHome> {
                     )),
                 icon: Icon(
                   Icons.person,
+                  color: Colors.black,
+                ),
+              ),
+              BottomNavigationBarItem(
+                title: Text('Signout',
+                    style: TextStyle(
+                      color: Colors.black,
+                    )),
+                icon: Icon(
+                  Icons.exit_to_app,
                   color: Colors.black,
                 ),
               )

@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
               decoration: const InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
+                  hintText: 'Password',
                   filled: true))
         ],
       ),
@@ -93,9 +94,11 @@ class _LoginPageState extends State<LoginPage> {
           TextField(
               obscureText: isPassword,
               controller: username,
+
               decoration: const InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
+                  hintText: 'Username',
                   filled: true))
         ],
       ),
@@ -110,14 +113,15 @@ class _LoginPageState extends State<LoginPage> {
           },
           // or do something with the result.data on completion
           onCompleted: (dynamic resultData) {
-            print(resultData);
-            widget.store.dispatch(connect.Actions.Connected);
-            Navigator.push(
-                context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayHome(token: resultData['Login']['token'] as String, store: widget.store)));
+            if (resultData['Login'] != null) {
+              widget.store.dispatch(connect.Actions.Connected);
+              Navigator.push(
+                  context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayHome(token: resultData['Login']['token'] as String, store: widget.store)));
+            }
           },
         ),
         builder: (RunMutation runMutation, QueryResult result) {
-          print(result.exception);
+
           return GestureDetector(
             onTap: () {
               runMutation(<String, dynamic> {'username': username.text, 'password': password.text});
@@ -142,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute<void>(builder: (BuildContext context) => const SignUpPage()));
+            context, MaterialPageRoute<void>(builder: (BuildContext context) => SignUpPage(store: widget.store,)));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 20),
@@ -156,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
             SizedBox(
@@ -165,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
             Text(
               'Register',
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 13,
                   fontWeight: FontWeight.w600),
             ),
@@ -191,6 +195,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.store.state);
     final double height = MediaQuery.of(context).size.height;
     return GraphQLProvider (
       child: Scaffold(

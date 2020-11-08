@@ -72,6 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
               decoration: const InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
+                  hintText: 'Password',
                   filled: true))
         ],
       ),
@@ -93,6 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
               decoration: const InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
+                  hintText: 'Username',
                   filled: true))
         ],
       ),
@@ -114,6 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
               decoration: const InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
+                  hintText: 'E-mail',
                   filled: true))
         ],
       ),
@@ -156,7 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute<void>(builder: (BuildContext context) => const LoginPage()));
+            context, MaterialPageRoute<void>(builder: (BuildContext context) => LoginPage(store: widget.store,)));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 20),
@@ -167,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
           children: const <Widget>[
             Text(
               'Already have an account ?',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.black),
             ),
             SizedBox(
               width: 10,
@@ -175,7 +178,7 @@ class _SignUpPageState extends State<SignUpPage> {
             Text(
               'Login',
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 13,
                   fontWeight: FontWeight.w600, ),
             ),
