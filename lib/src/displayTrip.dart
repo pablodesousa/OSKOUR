@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oskour/api.dart';
-import 'package:oskour/src/displayPage.dart';
-import 'package:oskour/src/camera.dart';
 import 'package:oskour/src/Factory.dart';
 
 class DisplayTrip extends StatefulWidget {
@@ -67,63 +65,7 @@ class _DisplayTripState extends State<DisplayTrip> {
       ),
     );
     return GraphQLProvider(
-      child: Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white.withOpacity(.60),
-            selectedFontSize: 14,
-            unselectedFontSize: 14,
-            onTap: (int value) {
-              if (value == 1) {
-                Navigator.push(
-                    context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayTrip(token: widget.token)));
-              }
-              if(value == 0) {
-                Navigator.push(
-                    context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayPage(token: widget.token)));
-              }
-              if(value == 2) {
-                Navigator.push(
-                    context, MaterialPageRoute<void>(builder: (BuildContext context) => CameraPage(token: widget.token)));
-              }
-            },
-            items: const <BottomNavigationBarItem> [
-              BottomNavigationBarItem(
-                title: Text('Home',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.black,
-                ),
-              ),
-              BottomNavigationBarItem(
-                title: Text('Your trip',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                icon: Icon(
-                  Icons.airplanemode_active,
-                  color: Colors.black,
-                ),
-              ),
-              BottomNavigationBarItem(
-                title: Text('Profile',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.black,
-                ),
-              )
-            ],
-          ),
-          body: _displayPlane()
-      ),
+      child: _displayPlane(),
       client: client,
     );
   }

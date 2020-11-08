@@ -155,71 +155,7 @@ class _CameraPageState extends State<CameraPage> {
       ),
     );
     return GraphQLProvider(
-      child: Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white.withOpacity(.60),
-          selectedFontSize: 14,
-          unselectedFontSize: 14,
-          onTap: (int value) {
-            if (value == 1) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          DisplayTrip(token: widget.token)));
-            }
-            if (value == 0) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          DisplayPage(token: widget.token)));
-            }
-            if (value == 2) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const CameraPage()));
-            }
-          },
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              title: Text('Home',
-                  style: TextStyle(
-                    color: Colors.black,
-                  )),
-              icon: Icon(
-                Icons.home,
-                color: Colors.black,
-              ),
-            ),
-            BottomNavigationBarItem(
-              title: Text('Your trip',
-                  style: TextStyle(
-                    color: Colors.black,
-                  )),
-              icon: Icon(
-                Icons.airplanemode_active,
-                color: Colors.black,
-              ),
-            ),
-            BottomNavigationBarItem(
-              title: Text('Profile',
-                  style: TextStyle(
-                    color: Colors.black,
-                  )),
-              icon: Icon(
-                Icons.person,
-                color: Colors.black,
-              ),
-            )
-          ],
-        ),
-        body: _displayProfile(),
-      ),
+      child: _displayProfile(),
       client: client,
     );
   }

@@ -39,6 +39,7 @@ query launches() {
     launches {
       id
       mission {
+        missionPatch
         name
       }
       rocket {

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oskour/api.dart';
 import 'package:oskour/src/signup.dart';
-import 'package:oskour/src/displayPage.dart';
+import 'package:oskour/src/Home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key, this.title}) : super(key: key);
@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
           onCompleted: (dynamic resultData) {
             print(resultData);
             Navigator.push(
-                context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayPage(token: resultData['Login']['token'] as String)));
+                context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayHome(token: resultData['Login']['token'] as String)));
           },
         ),
         builder: (RunMutation runMutation, QueryResult result) {

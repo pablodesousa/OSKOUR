@@ -10,6 +10,8 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>NSCameraUsageDescription</key>
+    <string>to take picture of you</string>
 	<key>CFBundleName</key>
 	<string>oskour</string>
 	<key>CFBundlePackageType</key>

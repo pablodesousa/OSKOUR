@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oskour/api.dart';
 import 'package:oskour/src/missionPage.dart';
-import 'package:oskour/src/displayTrip.dart';
-import 'package:oskour/src/camera.dart';
 import 'package:oskour/src/Factory.dart';
 
 class DisplayPage extends StatefulWidget {
@@ -22,7 +20,6 @@ final Policies policies = Policies(
 );
 
 class _DisplayPageState extends State<DisplayPage> {
-
   Widget _displayPlane() {
     return Query(
         options: QueryOptions(
@@ -40,22 +37,59 @@ class _DisplayPageState extends State<DisplayPage> {
             return const Text('Loading');
           }
           final LaunchList launches = LaunchList.fromJson(result.data['launches']['launches'] as List<dynamic>);
-          return ListView.builder(
-              itemCount: launches.launchList.length,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context,int index) {
-                final LaunchItem launch = launches.launchList[index];
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context, MaterialPageRoute<void>(builder: (BuildContext context) => MissionPage(id: launch.missionID, token: widget.token)));
-                    },
-                  child: Card(
-                    child: ListTile(
-                      title: Text(launch.mission.name),
-                    )
-                  )
-                );
+          return Mutation(
+              options: MutationOptions(
+                documentNode: gql(bookATrip),
+                update: (Cache cache, QueryResult result) {
+                },
+                // or do something with the result.data on completion
+                onCompleted: (dynamic resultData) {
+                  print(resultData);
+                },
+              ),
+              builder: (RunMutation runMutation, QueryResult result) {
+                print(result.exception);
+                return  ListView.builder(
+                    itemCount: launches.launchList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      final LaunchItem launch = launches.launchList[index];
+                      return GestureDetector(
+                          onTap: () {
+                            runMutation(<String, dynamic> {'launch_id': launch.missionID});
+                          },
+                          child: Card(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Image.network((() {
+                                    if (launch.mission.missionPatch != null) {
+                                      return launch.mission.missionPatch;
+                                    }
+                                    else {
+                                      return 'https://lunar-typhoon-spear.glitch.me/img/default-image.png';
+                                    }
+                                  })()),
+                                  title: Text(launch.mission.name),
+                                  subtitle: Text(launch.rocket.name),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    const SizedBox(width: 8),
+                                    RaisedButton(
+                                      child: const Text('Partir en voyage'),
+                                      onPressed: () {runMutation(<String, dynamic> {'launch_id': launch.missionID});},
+                                    ),
+                                    const SizedBox(width: 8),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                      );
+                    });
               });
         });
   }
@@ -77,63 +111,7 @@ class _DisplayPageState extends State<DisplayPage> {
       ),
     );
     return GraphQLProvider(
-      child: Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white.withOpacity(.60),
-            selectedFontSize: 14,
-            unselectedFontSize: 14,
-            onTap: (int value) {
-              if (value == 1) {
-                Navigator.push(
-                    context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayTrip(token: widget.token)));
-              }
-              if(value == 0) {
-                Navigator.push(
-                    context, MaterialPageRoute<void>(builder: (BuildContext context) => DisplayPage(token: widget.token)));
-              }
-              if(value == 2) {
-                Navigator.push(
-                    context, MaterialPageRoute<void>(builder: (BuildContext context) => CameraPage(token: widget.token)));
-              }
-            },
-            items: const <BottomNavigationBarItem> [
-              BottomNavigationBarItem(
-                title: Text('Home',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.black,
-                ),
-              ),
-              BottomNavigationBarItem(
-                title: Text('Your trip',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                icon: Icon(
-                  Icons.airplanemode_active,
-                  color: Colors.black,
-                ),
-              ),
-              BottomNavigationBarItem(
-                title: Text('Profile',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.black,
-                ),
-              )
-            ],
-          ),
-          body: _displayPlane()
-      ),
+      child:  _displayPlane(),
       client: client,
     );
   }
