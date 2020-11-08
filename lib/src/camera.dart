@@ -10,7 +10,6 @@ import 'package:oskour/src/displayTrip.dart';
 import 'package:oskour/src/displayPage.dart';
 import 'package:oskour/src/Factory.dart';
 
-
 DateTime now = DateTime.now();
 Random rnd = Random();
 Random rnd2 = Random(now.millisecondsSinceEpoch);
@@ -43,7 +42,7 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<void> getImage() async {
     final PickedFile pickedFile =
-    await picker.getImage(source: ImageSource.camera);
+        await picker.getImage(source: ImageSource.camera);
 
     setState(() {
       if (pickedFile != null) {
@@ -71,8 +70,8 @@ class _CameraPageState extends State<CameraPage> {
             return const Text('Loading');
           }
           print(result.data);
-          final ProfileList profiles = ProfileList.fromJson(
-              result.data['user'] as List<dynamic>);
+          final ProfileList profiles =
+              ProfileList.fromJson(result.data['user'] as List<dynamic>);
 
           return Mutation(
               options: MutationOptions(
@@ -85,54 +84,104 @@ class _CameraPageState extends State<CameraPage> {
               ),
               builder: (RunMutation runMutation, QueryResult result) {
                 print(result.exception);
-                return CustomScrollView(slivers: <Widget>[
-                  SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                          return Column(
-                            children: <Widget>[
-                              Image.network((() {
-                                if (profiles.profileItem[0].avatar != null) {
-                                  return profiles.profileItem[0].avatar;
-                                }
-                                else {
-                                  return 'https://lunar-typhoon-spear.glitch.me/img/default-image.png';
-                                }
-                              })()),
-                              Text(
-                                profiles.profileItem[0].email,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 50,
+                return MaterialApp(
+                  home: Scaffold(
+                    backgroundColor: Colors.teal.shade50,
+                    body: SafeArea(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    CircleAvatar(
+                                      radius: 80,
+                                      backgroundImage: NetworkImage((() {
+                                        if (profiles.profileItem[0].avatar !=
+                                            null) {
+                                          return profiles.profileItem[0].avatar;
+                                        } else {
+                                          return 'https://lunar-typhoon-spear.glitch.me/img/default-image.png';
+                                        }
+                                      })()),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    GestureDetector(
+                                        onTap: () {
+                                          _image == null
+                                              ? print('error')
+                                              : runMutation(<String, dynamic>{
+                                                  'base64str': image64,
+                                                  'name': getRandomString(15) +
+                                                      '.jpg',
+                                                  'type': 'image/jpeg'
+                                                });
+                                        },
+                                        child: _image == null
+                                            ? const Text('Select an image:')
+                                            : const Icon(Icons.check_circle)),
+                                    FloatingActionButton(
+                                      onPressed: getImage,
+                                      backgroundColor: Colors.teal[900],
+                                      tooltip: 'Pick Image',
+                                      child: const Icon(Icons.add_a_photo),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20.0,
+                              width: 200,
+                              child: Divider(
+                                color: Colors.teal[100],
+                              ),
+                            ),
+                            Text("I'm a space explorer !"),
+                            Card(
+                                color: Colors.white,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 25.0),
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.email,
+                                    color: Colors.teal[900],
+                                  ),
+                                  title: Text(
+                                    profiles.profileItem[0].email,
+                                    style: TextStyle(
+                                        fontFamily: 'BalooBhai',
+                                        fontSize: 20.0),
+                                  ),
+                                )),
+                            Card(
+                              color: Colors.white,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 25.0),
+                              child: ListTile(
+                                leading: Icon(
+                                  Icons.supervised_user_circle,
+                                  color: Colors.teal[900],
+                                ),
+                                title: Text(
+                                  profiles.profileItem[0].username,
+                                  style: TextStyle(
+                                      fontSize: 20.0, fontFamily: 'Neucha'),
                                 ),
                               ),
-                              Text(
-                                profiles.profileItem[0].username,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 50,
-                                ),
-                              ),
-                              GestureDetector(
-                                  onTap: () {
-                                    _image == null
-                                        ? print('error')
-                                        : runMutation(<String, dynamic>{'base64str': image64, 'name': getRandomString(15) + '.jpg', 'type': 'image/jpeg'});
-                                  },
-                                  child: _image == null
-                                      ? const Text('dont has image')
-                                      : const Text('has image')),
-                              FloatingActionButton(
-                                onPressed: getImage,
-                                tooltip: 'Pick Image',
-                                child: const Icon(Icons.add_a_photo),
-                              )
-                            ],
-                          );
-                        },
-                        childCount: 1,
-                      ))
-                ]);
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
               });
         });
   }

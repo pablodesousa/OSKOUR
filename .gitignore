@@ -1,1 +1,7 @@
-node_modules
+.gitignore
+.dart_tool
+build
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.idea
